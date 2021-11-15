@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use \App\Utils\View;
 use \App\Model\Entity\User;
+use \App\Session\Admin\Login as SessionAdminLogin;
 
 class Login extends Page{
   
@@ -13,7 +14,7 @@ class Login extends Page{
    * @param String $errorMessage
    * @return String
    */
-  public static function getLogin($request, $errorMessage) {
+  public static function getLogin($request, $errorMessage = null) {
     //Status do login
     $status = !is_null($errorMessage) ? View::render('admin/login/status', [
       'mensagem' => $errorMessage
@@ -48,5 +49,23 @@ class Login extends Page{
     if (!password_verify($senha, $obUser->senha)) {
       return self::getLogin($request, 'E-mail ou senha inválidos');
     }
+
+    //Cria a sessão de login
+    SessionAdminLogin::login($obUser);
+    
+    //Redireciona o usuário para a home do admin
+    $request->getRouter()->redirect('/admin');
+  }
+  /**
+   * Método responsável por deslogar o usuário
+   * @param Request $request
+   */
+  public static function setLogout($request) {
+    //Destroi a sessão de login
+    SessionAdminLogin::logout();
+
+    //Redireciona o usuario para a tela de login
+    $request->getRouter()->redirect('/admin/login');
+
   }
 }
