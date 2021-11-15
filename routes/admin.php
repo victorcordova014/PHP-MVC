@@ -10,9 +10,16 @@ $obRouter->get('/admin', [
   }
 ]);
 
-//Rota do admin
-$obRouter->get('/login', [
-  function() {
-    return new Response(200, 'login :)');
+//Rota do Login
+$obRouter->get('/admin/login', [
+  function($request) {
+    return new Response(200, Admin\Login::getLogin($request));
+  }
+]);
+
+//Rota do login (POST)
+$obRouter->post('/admin/login', [
+  function($request) {
+    return new Response(200, Admin\Login::getLogin($request));
   }
 ]);
