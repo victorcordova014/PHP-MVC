@@ -20,6 +20,6 @@ $obRouter->get('/admin/login', [
 //Rota do login (POST)
 $obRouter->post('/admin/login', [
   function($request) {
-    return new Response(200, Admin\Login::getLogin($request));
+    return new Response(200, Admin\Login::setLogin($request));
   }
 ]);
