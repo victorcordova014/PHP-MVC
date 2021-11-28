@@ -131,46 +131,46 @@ class User extends Page{
   }
 
   /**
-   * Método responsável por retornar o formulário de edição de um depoimento
+   * Método responsável por retornar o formulário de edição de um usuário
    * @param Request $request
    * @param integer $id
    * @return string
    */
-  public static function getEditTestimony($request, $id) {
+  public static function getEditUser($request, $id) {
     //obtem o depoimento do banco de dados 
-    $obTestimony = EntityTestimony::getTestimonyById($id);
+    $obUser = EntityUser::getUserById($id);
 
     //valida a instancia
-    if (!$obTestimony instanceof EntityTestimony) {
-      $request->getRouter()->redirect('/admin/testimonies');
+    if (!$obUser instanceof EntityUser) {
+      $request->getRouter()->redirect('/admin/users');
     }
     
     // Conteúdo do formulário
-    $content = View::render('admin/modules/testimonies/form', [
-      'title'    => 'Edição de depoimento',
-      'nome'     =>  $obTestimony->nome,
-      'mensagem' =>  $obTestimony->mensagem,
+    $content = View::render('admin/modules/users/form', [
+      'title'    => 'Edição de usuários',
+      'nome'     =>  $obUser->nome,
+      'email'    =>  $obUser->email,
       'status'   =>  self::getStatus($request)
       
     ]);
 
     // Retorna a página completa
-    return parent::getPanel('Editar depoimento > PHP-MVC', $content, 'testimonies');
+    return parent::getPanel('Editar usuário > PHP-MVC', $content, 'users');
   }
 
   /**
-   * Método responsável por gravar a atualizacao de um depoimento
+   * Método responsável por gravar a atualizacao de um usuário
    * @param Request $request
    * @param integer $id
    * @return string
    */
-  public static function setEditTestimony($request, $id) {
+  public static function setEditUser($request, $id) {
     //obtem o depoimento do banco de dados 
-    $obTestimony = EntityTestimony::getTestimonyById($id);
+    $obUser = EntityUser::getUserById($id);
 
     //valida a instancia
-    if (!$obTestimony instanceof EntityTestimony) {
-      $request->getRouter()->redirect('/admin/testimonies');
+    if (!$obUser instanceof EntityUser) {
+      $request->getRouter()->redirect('/admin/users');
     }
     
     //POST VARS

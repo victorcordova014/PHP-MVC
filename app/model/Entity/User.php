@@ -31,7 +31,7 @@ class User{
    * @return User
    */
   public static function getUserByEmail($email) {
-    return (new Database('usuarios'))->select('email = "'.$email.'"')->fetchObject(self::class);
+    return self::getUsers('email ='.$email)->fetchObject(self::class);
 
   }
 
@@ -52,5 +52,31 @@ class User{
 
     //Sucesso
     return true;
+  }
+
+  /**
+   * Método responsável por atualizar uma instancia de usuário no banco de dados
+   * @return boolean
+   */
+  public function atualizar() {
+    $this->id = (new Database('usuarios'))->update('id ='.$this->id, [
+      'nome'  => $this->nome,
+      'email' => $this->email,
+      'senha' => $this->senha
+    ]);
+  }
+  /**
+   * Método responsável por excluir uma instancia de usuário no banco de dados
+   * @return boolean
+   */
+  public function excluir() {
+    $this->id = (new Database('usuarios'))->delete('id ='.$this->id);
+  }
+  /**
+   * Método responsável por buscar uma instancia de usuário no banco de dados pelo ID
+   * @return boolean
+   */
+  public static function getUserById($id) {
+    return self::getUsers('id ='.$id)->fetchObject(self::class);
   }
 }

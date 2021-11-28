@@ -39,7 +39,7 @@ $obRouter->get('/admin/users/{id}/edit', [
     'require-admin-login'  
     ],
   function($request, $id) {
-    return new Response(200, Admin\Testimonies::getEditTestimony($request, $id));
+    return new Response(200, Admin\User::getEditUser($request, $id));
   }
 ]);
 
