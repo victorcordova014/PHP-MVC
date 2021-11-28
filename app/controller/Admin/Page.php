@@ -17,11 +17,11 @@ class Page {
     ],
     'testimonies' => [
       'label' => 'Depoimentos',
-      'link'  => URL.'/testimonies'
+      'link'  => URL.'/admin/testimonies'
     ],
     'users' => [
       'label' => 'Usuários',
-      'link'  => URL.'/user'
+      'link'  => URL.'/admin/users'
     ]
   ];
 

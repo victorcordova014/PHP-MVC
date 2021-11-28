@@ -16,6 +16,6 @@ class Home extends Page{
     $content = View::render('admin/modules/home/index', []);
 
     // Retorna a página completa
-    return parent::getPanel('Home > WDEV', $content, 'home');
+    return parent::getPanel('Home > PHP-MVC', $content, 'home');
   }
 }
