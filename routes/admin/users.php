@@ -59,7 +59,7 @@ $obRouter->get('/admin/users/{id}/delete', [
     'require-admin-login'  
     ],
   function($request, $id) {
-    return new Response(200, Admin\Testimonies::getDeleteTestimony($request, $id));
+    return new Response(200, Admin\User::getDeleteUser($request, $id));
   }
 ]);
 
@@ -69,6 +69,6 @@ $obRouter->post('/admin/users/{id}/delete', [
     'require-admin-login'  
     ],
   function($request, $id) {
-    return new Response(200, Admin\Testimonies::setDeleteTestimony($request, $id));
+    return new Response(200, Admin\User::setDeleteUser($request, $id));
   }
 ]);

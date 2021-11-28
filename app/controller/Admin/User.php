@@ -73,7 +73,7 @@ class User extends Page{
   }
 
   /**
-   * Método responsável por cadastrar um novo depoimento no banco
+   * Método responsável por cadastrar um novo usuario no banco
    * @param Request $request
    * @return string
    */
@@ -137,7 +137,7 @@ class User extends Page{
    * @return string
    */
   public static function getEditUser($request, $id) {
-    //obtem o depoimento do banco de dados 
+    //obtem o usuario do banco de dados 
     $obUser = EntityUser::getUserById($id);
 
     //valida a instancia
@@ -165,7 +165,7 @@ class User extends Page{
    * @return string
    */
   public static function setEditUser($request, $id) {
-    //obtem o depoimento do banco de dados 
+    //obtem o usuario do banco de dados 
     $obUser = EntityUser::getUserById($id);
 
     //valida a instancia
@@ -198,50 +198,50 @@ class User extends Page{
   }
 
   /**
-   * Método responsável por retornar o formulário de exclusão de um depoimento
+   * Método responsável por retornar o formulário de exclusão de um usuário
    * @param Request $request
    * @param integer $id
    * @return string
    */
-  public static function getDeleteTestimony($request, $id) {
-    //obtem o depoimento do banco de dados 
-    $obTestimony = EntityTestimony::getTestimonyById($id);
+  public static function getDeleteUser($request, $id) {
+    //obtem o usuario do banco de dados 
+    $obUser = EntityUser::getUserById($id);
 
     //valida a instancia
-    if (!$obTestimony instanceof EntityTestimony) {
-      $request->getRouter()->redirect('/admin/testimonies');
+    if (!$obUser instanceof EntityUser) {
+      $request->getRouter()->redirect('/admin/users');
     }
     
     // Conteúdo do formulário
-    $content = View::render('admin/modules/testimonies/delete', [
-      'nome'     =>  $obTestimony->nome,
-      'mensagem' =>  $obTestimony->mensagem,
+    $content = View::render('admin/modules/users/delete', [
+      'nome'     =>  $obUser->nome,
+      'email'    =>  $obUser->email
     ]);
 
     // Retorna a página completa
-    return parent::getPanel('Excluir um depoimento > PHP-MVC', $content, 'testimonies');
+    return parent::getPanel('Excluir um usuario > PHP-MVC', $content, 'users');
   }
 
   /**
-   * Método responsável por excluir um depoimento
+   * Método responsável por excluir um usuario
    * @param Request $request
    * @param integer $id
    * @return string
    */
-  public static function setDeleteTestimony($request, $id) {
-    //obtem o depoimento do banco de dados 
-    $obTestimony = EntityTestimony::getTestimonyById($id);
+  public static function setDeleteUser($request, $id) {
+    //obtem o usuario do banco de dados 
+    $obUser = EntityUser::getUserById($id);
 
     //valida a instancia
-    if (!$obTestimony instanceof EntityTestimony) {
-      $request->getRouter()->redirect('/admin/testimonies');
+    if (!$obUser instanceof EntityUser) {
+      $request->getRouter()->redirect('/admin/users');
     }
   
-    //Excluir o depoimento
-    $obTestimony->excluir();
+    //Excluir o usuario
+    $obUser->excluir();
 
     //Redireciona o usuário para alterar o cadastro
-    $request->getRouter()->redirect('/admin/testimonies?status=deleted');
+    $request->getRouter()->redirect('/admin/users?status=deleted');
   }
 }
 

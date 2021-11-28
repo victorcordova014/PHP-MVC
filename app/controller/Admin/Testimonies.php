@@ -185,7 +185,7 @@ class Testimonies extends Page{
     // Conteúdo do formulário
     $content = View::render('admin/modules/testimonies/delete', [
       'nome'     =>  $obTestimony->nome,
-      'mensagem' =>  $obTestimony->mensagem,
+      'mensagem' =>  $obTestimony->mensagem
     ]);
 
     // Retorna a página completa
