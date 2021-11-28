@@ -49,7 +49,7 @@ $obRouter->post('/admin/users/{id}/edit', [
     'require-admin-login'  
     ],
   function($request, $id) {
-    return new Response(200, Admin\Testimonies::setEditTestimony($request, $id));
+    return new Response(200, Admin\User::setEditUser($request, $id));
   }
 ]);
 

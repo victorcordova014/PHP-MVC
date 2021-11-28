@@ -125,7 +125,7 @@ class User extends Page{
         return Alert::getSuccess('Usuário excluído com sucesso');
         break;
       case 'duplicated':
-        return Alert::getError('O e-mail utilizado já está sendo usado por outro usuário');
+        return Alert::getError('O e-mail inserido não está disponível');
         break;
     }
   }
@@ -175,14 +175,26 @@ class User extends Page{
     
     //POST VARS
     $postVars = $request->getPostVars();
+    $nome      = $postVars['nome'] ?? '';
+    $email     = $postVars['email'] ?? '';
+    $senha     = $postVars['senha'] ?? '';
+    
+    $obUserByMail = EntityUser::getUserByEmail($email);
+    
+    if ($obUserByMail instanceof EntityUser && $obUserByMail->id != $id) {
+      //Redireciona o usuário
+      $request->getRouter()->redirect('/admin/users/'.$id.'/edit?status=duplicated');
+    }
 
     //Atualiza a instancia
-    $obTestimony->nome = $postVars['nome'] ?? $obTestimony->nome;
-    $obTestimony->mensagem = $postVars['mensagem'] ?? $obTestimony->mensagem;
-    $obTestimony->atualizar();
+    $obUser->nome = $nome;
+    $obUser->email = $email;
+    $obUser->senha = password_hash($senha, PASSWORD_DEFAULT);
+    
+    $obUser->atualizar();
 
     //Redireciona o usuário para alterar o cadastro
-    $request->getRouter()->redirect('/admin/testimonies/'.$obTestimony->id.'/edit?status=updated');
+    $request->getRouter()->redirect('/admin/users/'.$obUser->id.'/edit?status=updated');
   }
 
   /**

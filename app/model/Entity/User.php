@@ -31,10 +31,10 @@ class User{
    * @return User
    */
   public static function getUserByEmail($email) {
-    return self::getUsers('email ='.$email)->fetchObject(self::class);
+    return self::getUsers('email ="'.$email.'"')->fetchObject(self::class);
 
   }
-
+  
   public static function getUsers($where = null, $order = null, $limit = null, $field = '*') {
     return (new Database('usuarios')) ->select($where, $order, $limit, $field);
   }
@@ -59,7 +59,7 @@ class User{
    * @return boolean
    */
   public function atualizar() {
-    $this->id = (new Database('usuarios'))->update('id ='.$this->id, [
+    return (new Database('usuarios'))->update('id ='.$this->id, [
       'nome'  => $this->nome,
       'email' => $this->email,
       'senha' => $this->senha
