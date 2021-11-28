@@ -16,7 +16,7 @@ class Testimonies extends Page{
     $queryParams = $request->getQueryParams();
     $paginaAtual = $queryParams['page'] ?? 1;
 
-    $obPagination = new Pagination($quantidadeTotal, $paginaAtual, 3);
+    $obPagination = new Pagination($quantidadeTotal, $paginaAtual, 5);
 
     $result = EntityTestimony::getTestimonies(null, 'id DESC', $obPagination->getLimit());
 
@@ -41,10 +41,46 @@ class Testimonies extends Page{
   public static function getTestimonies($request) {
     // Conteúdo da HOME
     $content = View::render('admin/modules/testimonies/index', [
-      'itens' => self::getTestimonyItems($request, $obPagination)
+      'itens' => self::getTestimonyItems($request, $obPagination),
+      'pagination' => parent::getPagination($request, $obPagination)
     ]);
 
     // Retorna a página completa
     return parent::getPanel('Depoimentos > PHP-MVC', $content, 'testimonies');
+  }
+
+  /**
+   * Método responsável por retornar o formulário de cadastro de um novo depoimento
+   * @param Request $request
+   * @return string
+   */
+  public static function getNewTestimony($request) {
+    // Conteúdo do formulário
+    $content = View::render('admin/modules/testimonies/form', [
+      'title' => 'Cadastro de depoimento',
+      
+    ]);
+
+    // Retorna a página completa
+    return parent::getPanel('Cadastrar depoimento > PHP-MVC', $content, 'testimonies');
+  }
+
+  /**
+   * Método responsável por cadastrar um novo depoimento no banco
+   * @param Request $request
+   * @return string
+   */
+  public static function setNewTestimony($request) {
+    //post vars
+    $postVars = $request->getPostVars();
+
+    //Nova instancia de depoimento
+    $obTestimony = new EntityTestimony;
+    $obTestimony->nome       = $postVars['nome'] ?? '';
+    $obTestimony->mensagem   = $postVars['mensagem'] ?? '';
+    $obTestimony->cadastrar();
+
+    //Redireciona o usuário para alterar o cadastro
+    $request->getRouter()->redirect('admin/testimonies/'.$obTestimony->id.'/edit?status=created');
   }
 }

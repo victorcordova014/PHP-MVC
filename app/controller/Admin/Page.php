@@ -84,4 +84,36 @@ class Page {
       'modulo'  => $currentModule
     ]);*/
   }
+
+  public static function getPagination($request, $obPagination) {
+    $pages = $obPagination->getPages();
+
+    //VERIFICA A QUANTIDADE DE PÁGINAS
+    if (count($pages) <= 1) return '';
+
+    $links = '';
+
+    //URL ATUAL SEM GETS
+
+    $url = $request->getRouter()->getCurrentUrl();
+    
+
+    $queryParams = $request->getQueryParams();
+    
+    foreach ($pages as $page) {
+      $queryParams['page'] = $page['page'];
+
+      $link = $url.'?'.http_build_query($queryParams);
+
+      $links .= View::render('admin/pagination/link', [
+        'page' => $page['page'],
+        'link' => $link,
+        'active' => $page['current'] ? 'active' : ''
+      ]);
+    }
+      return View::render('admin/pagination/box', [
+        'links' => $links
+      ]);
+    
+  }
 }
