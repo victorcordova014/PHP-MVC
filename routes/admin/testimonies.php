@@ -32,3 +32,23 @@ $obRouter->post('/admin/testimonies/new', [
     return new Response(200, Admin\Testimonies::setNewTestimony($request));
   }
 ]);
+
+//Rota de edição de depoimentos
+$obRouter->get('/admin/testimonies/{id}/edit', [
+  'middlewares' => [
+    'require-admin-login'  
+    ],
+  function($request, $id) {
+    return new Response(200, Admin\Testimonies::getEditTestimony($request, $id));
+  }
+]);
+
+//Rota de edição de depoimentos (POST)
+$obRouter->post('/admin/testimonies/{id}/edit', [
+  'middlewares' => [
+    'require-admin-login'  
+    ],
+  function($request, $id) {
+    return new Response(200, Admin\Testimonies::setEditTestimony($request, $id));
+  }
+]);

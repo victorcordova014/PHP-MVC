@@ -24,4 +24,24 @@ class Testimony{
   public static function getTestimonies($where = null, $order = null, $limit = null, $field = '*') {
     return (new Database('depoimentos')) ->select($where, $order, $limit, $field);
   }
+  /**
+   * Método responsável por retornar o depoimento pelo ID
+   * @param integer $id
+   * @return string
+   */
+  public static function getTestimonyById($id) {
+    return self::getTestimonies('id ='.$id)->fetchObject(self::class);
+  }
+
+  /**
+   * Método resposável por atualizar o depoimento atual
+   * 
+   */
+  public function atualizar(){
+    //Atualiza O DEPOIMENTO NO BANCO DE DADOS
+    return (new Database('depoimentos'))->update('id ='.$this->id,[
+      'nome' => $this->nome,
+      'mensagem' => $this->mensagem,
+    ]);
+  }
 }

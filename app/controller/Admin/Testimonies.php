@@ -57,8 +57,9 @@ class Testimonies extends Page{
   public static function getNewTestimony($request) {
     // Conteúdo do formulário
     $content = View::render('admin/modules/testimonies/form', [
-      'title' => 'Cadastro de depoimento',
-      
+      'title'     => 'Cadastro de depoimento',
+      'nome'      => '',
+      'mensagem'  => ''
     ]);
 
     // Retorna a página completa
@@ -81,6 +82,60 @@ class Testimonies extends Page{
     $obTestimony->cadastrar();
 
     //Redireciona o usuário para alterar o cadastro
-    $request->getRouter()->redirect('admin/testimonies/'.$obTestimony->id.'/edit?status=created');
+    $request->getRouter()->redirect('/admin/testimonies/'.$obTestimony->id.'/edit?status=created');
+  }
+
+  /**
+   * Método responsável por retornar o formulário de edição de um depoimento
+   * @param Request $request
+   * @param integer $id
+   * @return string
+   */
+  public static function getEditTestimony($request, $id) {
+    //obtem o depoimento do banco de dados 
+    $obTestimony = EntityTestimony::getTestimonyById($id);
+
+    //valida a instancia
+    if (!$obTestimony instanceof EntityTestimony) {
+      $request->getRouter()->redirect('/admin/testimonies');
+    }
+    
+    // Conteúdo do formulário
+    $content = View::render('admin/modules/testimonies/form', [
+      'title'    => 'Edição de depoimento',
+      'nome'     =>  $obTestimony->nome,
+      'mensagem' =>  $obTestimony->mensagem
+      
+    ]);
+
+    // Retorna a página completa
+    return parent::getPanel('Editar depoimento > PHP-MVC', $content, 'testimonies');
+  }
+
+  /**
+   * Método responsável por gravar a atualizacao de um depoimento
+   * @param Request $request
+   * @param integer $id
+   * @return string
+   */
+  public static function setEditTestimony($request, $id) {
+    //obtem o depoimento do banco de dados 
+    $obTestimony = EntityTestimony::getTestimonyById($id);
+
+    //valida a instancia
+    if (!$obTestimony instanceof EntityTestimony) {
+      $request->getRouter()->redirect('/admin/testimonies');
+    }
+    
+    //POST VARS
+    $postVars = $request->getPostVars();
+
+    //Atualiza a instancia
+    $obTestimony->nome = $postVars['nome'] ?? $obTestimony->nome;
+    $obTestimony->mensagem = $postVars['mensagem'] ?? $obTestimony->mensagem;
+    $obTestimony->atualizar();
+
+    //Redireciona o usuário para alterar o cadastro
+    $request->getRouter()->redirect('/admin/testimonies/'.$obTestimony->id.'/edit?status=updated');
   }
 }
