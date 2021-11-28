@@ -35,7 +35,7 @@ class Testimony{
 
   /**
    * Método resposável por atualizar o depoimento atual
-   * 
+   * @return boolean
    */
   public function atualizar(){
     //Atualiza O DEPOIMENTO NO BANCO DE DADOS
@@ -43,5 +43,14 @@ class Testimony{
       'nome' => $this->nome,
       'mensagem' => $this->mensagem,
     ]);
+  }
+
+  /**
+   * Método resposável por excluir o depoimento atual
+   * 
+   */
+  public function excluir(){
+    //Exclui O DEPOIMENTO NO BANCO DE DADOS
+    return (new Database('depoimentos'))->delete('id ='.$this->id);
   }
 }
